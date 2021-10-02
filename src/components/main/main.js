@@ -8,7 +8,7 @@ function Main() {
   return (
     <div className="main">
 
-      <div>
+      <div className="main-top">
         <div>
           <Seal />
         </div>

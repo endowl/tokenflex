@@ -1,4 +1,18 @@
 .main {
   background-image: url('./background.jpg');
-  height: 100vh;
+  min-height: 100vh;
+  min-width: 100vw;
+  overflow: hidden;
+  place-content: center;
+  background-repeat: round;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+.main-top {
+  display: flex;
+  flex-direction: row;
+  padding: 40px;
+  margin: auto;
+  justify-content: space-between;
 }
