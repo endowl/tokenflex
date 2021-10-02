@@ -1,4 +1,5 @@
 import Logo from '../logo';
+import Seal from '../seal';
 
 import './main.css';
 
@@ -8,7 +9,7 @@ function Main() {
 
       <div>
         <div>
-          Seal
+          <Seal />
         </div>
         <div>
           <Logo />
