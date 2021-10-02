@@ -22,12 +22,13 @@ function Main() {
         </div>
       </div>
 
-      <div>
-        <Landing />
-      </div>
-
-      <div>
-        <Product />
+      <div className="main-middle">
+        <div>
+          <Landing />
+        </div>
+        <div>
+          <Product />
+        </div>
       </div>
 
     </div>
