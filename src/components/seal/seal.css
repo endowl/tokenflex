@@ -1,0 +1,9 @@
+.seal {
+  /* background-image: url('./QRCircle.png'); */
+  display:flex;
+}
+
+.seal-image {
+  height: 250px;
+  width: 250px;
+}
