@@ -1,3 +1,4 @@
+import Connect from "../connect";
 import Logo from '../logo';
 import Seal from '../seal';
 
@@ -15,7 +16,7 @@ function Main() {
           <Logo />
         </div>
         <div>
-          Connect
+          <Connect />
         </div>
       </div>
 
