@@ -1,3 +1,3 @@
-import Logo from "logo.js";
+import Logo from "./logo.js";
 
 export default Logo;

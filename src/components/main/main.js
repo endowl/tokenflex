@@ -1,3 +1,5 @@
+import Logo from '../logo';
+
 import './main.css';
 
 function Main() {
@@ -9,7 +11,7 @@ function Main() {
           Seal
         </div>
         <div>
-          Logo
+          <Logo />
         </div>
         <div>
           Connect
@@ -23,7 +25,7 @@ function Main() {
       <div>
         Product
       </div>
-      
+
     </div>
   );
 }

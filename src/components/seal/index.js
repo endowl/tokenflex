@@ -1,3 +1,3 @@
-import Seal from 'seal.js';
+import Seal from './seal.js';
 
 export default Seal;
