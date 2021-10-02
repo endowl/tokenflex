@@ -1,6 +1,8 @@
-import Connect from "../connect";
+import Connect from '../connect';
+import Landing from '../landing';
 import Logo from '../logo';
 import Seal from '../seal';
+import Product from '../product';
 
 import './main.css';
 
@@ -21,11 +23,11 @@ function Main() {
       </div>
 
       <div>
-        Landing
+        <Landing />
       </div>
 
       <div>
-        Product
+        <Product />
       </div>
 
     </div>
