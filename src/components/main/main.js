@@ -1,6 +1,7 @@
 import Connect from '../connect';
 import Landing from '../landing';
 import Logo from '../logo';
+import NftScroller from '../nftScroller';
 import Seal from '../seal';
 import Product from '../product';
 
@@ -26,17 +27,15 @@ function Main() {
       </div>
 
       <div className="main-middle">
-        {/* if wallet not connected */}
         <div className="main-middle-landing">
-          <Landing />
+        {/* if wallet not connected */}
+          {/* <Landing /> */}
+        {/* if wallet connected */}
+          <NftScroller />
         </div>
         <div className="main-middle-product">
           <Product nft={placeholderNft} seal={code} />
         </div>
-
-        {/* if wallet connected */}
-
-        
 
       </div>
 
