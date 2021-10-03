@@ -37,6 +37,7 @@ function Main() {
     <div className="main" style={{backgroundImage: "url('./Group1.png')"}}>
       <button className="main-button" onClick={() => setCount(count + 1)}>next</button>
       {scene}
+      <a className="main-link" href={"https://github.com/endowl/tokenflex"}>https://github.com/endowl/tokenflex</a>
     </div>
 
     //   <div className="main-top">

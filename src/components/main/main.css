@@ -49,3 +49,9 @@
   height: 30px;
   width: 50px;
 }
+
+.main-link {
+  position: relative;
+  top: -40px;
+  color: white;
+}
