@@ -1,0 +1,31 @@
+.product {
+  position: fixed;
+  display: flex;
+  margin-right: 60px;
+}
+
+.product-base {
+  background-image: url('./BlankShirt.png');
+  height: 540px;
+  width: 540px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.product-nft {
+  width: 179.55px;
+  height: 184.41px;
+  position: relative;
+  top: 140px;
+  left: 35px;
+}
+
+.product-seal {
+  height: 50px;
+  width: 50px;
+  position: relative;
+  z-index: 1;
+  top: 316px;
+  right: 160px;
+}
