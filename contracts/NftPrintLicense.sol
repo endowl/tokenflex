@@ -1,23 +1,28 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
-import "./NftPrintLicense.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/interfaces/IERC721.sol";
+
 
 struct License {
-  uint256 printLimit;
-  uint256 printsUsed;
   uint256 artistRoyalty;
   uint256 ownerRoyalty;
   uint256 promoterCommission;
+  bool exists;
 }
 
 
-contract NftPrintLicense {
+contract NftPrintLicense is Ownable {
   event LicensesEnabledForCollection(address collectionAddress, uint256 artistRoyalty, uint256 ownerRoyalty,
     uint256 promoterCommission);
-  event PrintLicensed(address collectionAddress, uint256 tokenId, address promoter, address licensee);
+  event LicensesDisabledForCollection(address collectionAddress);
+  event PrintLicensed(address collectionAddress, uint256 tokenId, address promoter,
+    uint256 artistShare, uint256 ownerShare, uint256 promoterShare, address licensee);
+  event Withdrawn(address indexed payee, uint256 weiAmount);
 
-  mapping(address => License) collectionLicenses;
-  mapping(address => uint256) pendingWithdrawal;
+  mapping(address => License) public collectionLicenses;
+  mapping(address => mapping(uint256 => mapping(address => bool))) public licenseBuyers;
+  mapping(address => uint256) private pendingWithdrawal;
 
   function enableLicensesForCollection(
     address collectionAddress,
@@ -25,68 +30,89 @@ contract NftPrintLicense {
   ) public {
     // Only the owner of a collection is allowed to enable license for a collection
     address owner = getCollectionOwner(collectionAddress);
-    assert(owner == msg.sender, "not authorized");
+    require(owner == msg.sender, "not authorized");
 
     // Fail when a license already exists
-    assert(collectionLicenses[collectionAddress] != null, "License already enabled");
+    require(!collectionLicenses[collectionAddress].exists, "License already enabled");
 
     // Created the license object and save it
-    License license = License(printLimit, artistRoyalty, ownerRoyalty, promoterCommission);
+    License memory license = License(artistRoyalty, ownerRoyalty, promoterCommission, true);
     collectionLicenses[collectionAddress] = license;
-    emit LicensesEnabledForCollection(collectionAddress, artistRoyalty, ownerRoyalty, promoterCommission, grantee);
+    emit LicensesEnabledForCollection(collectionAddress, artistRoyalty, ownerRoyalty, promoterCommission);
   }
 
-//  function enableLicensesForToken(
-//    address collectionAddress,
-//    uint256 tokenId
-//  ) {
-//    License license = collectionLicenses[collectionAddress];
-//    assert(license != null, "Collection must be licensed first");
-//
-//    address tokenOwner =  IERC721(collectionAddress).ownerOf(tokenId);
-//    assert(tokenOwner == message.sender, "Not authorized");
-//
-//
-//  }
+  function disableLicensesForCollection(address collectionAddress) public {
+    // only the collection owner can disable licensing
+    address owner = getCollectionOwner(collectionAddress);
+    require(owner == msg.sender, "not authorized");
 
-  function licensePrint(address collectionAddress, uint256 tokenId, address promoter) payable {
-    License license = collectionLicenses[collectionAddress];
+    // fail when license isn't enabled
+    require(collectionLicenses[collectionAddress].exists, "licensing not enabled");
+
+    delete collectionLicenses[collectionAddress];
+
+    emit LicensesDisabledForCollection(collectionAddress);
+  }
+
+  function getLicenseToPrint(address collectionAddress, uint256 tokenId, address promoter) public payable {
+    License storage license = collectionLicenses[collectionAddress];
 
     // Fail when a license hasn't been defined for the collection
-    assert(license != null, "no license defined");
-
-    // Increment the number of timed the collection has been printed
-    printsLicensed[address] += 1;
+    require(license.exists, "no license defined");
 
     // Fail when the payment is too small
-    uint256 requiredPayment = getRequiredPayment(collectionAddress, tokenId);
-    assert(msg.value >= requiredPayment, "payment too low");
+    uint256 requiredPayment = getRequiredPayment(collectionAddress);
+    require(msg.value >= requiredPayment, "payment too low");
 
-    // allocate artistRoyalty to the current collection owner
-    pendingWithdrawal[getCollectionOwner(collectionAddress)] += license.artistRoyalty;
+    // calculate royalty and commission shares
+    uint256 artistShare = license.artistRoyalty;
+    uint256 ownerShare = license.ownerRoyalty;
+    uint256 promoterShare = 0;
+    if (licenseBuyers[collectionAddress][tokenId][promoter]) {
+      // When the promoter previously bought a license, give them the commission
+      promoterShare += license.promoterCommission;
+    } else {
+      // Otherwise, split it proportioanlly between the tokenOwner and the artist
+      uint256 totalRoyalty = license.artistRoyalty + license.ownerRoyalty;
+      artistShare += license.promoterCommission * (license.artistRoyalty / totalRoyalty);
+      ownerShare += license.promoterCommission - artistShare;
+    }
 
-    // allocate ownerRoyalty to the current tokenOwner
+    address artist = getCollectionOwner(collectionAddress);
     address tokenOwner =  IERC721(collectionAddress).ownerOf(tokenId);
-    pendingWithdrawal[tokenOwner] += license.ownerRoyalty;
 
-    // allocate promoterCommission to the promoter who sold the prints
-    pendingWithdrawal[promoter] += license.promoterCommission;
+    pendingWithdrawal[artist] += artistShare;
+    pendingWithdrawal[tokenOwner] += ownerShare;
+    pendingWithdrawal[promoter] += promoterShare;
 
     // allocate the rest to the contract to cover production costs
-    pendingWithdrawal[this.owner] += msg.value - license.artistRoyalty - license.ownerRoyalty - license.promoterCommission;
+    pendingWithdrawal[this.owner()] += msg.value - artistShare - ownerShare - promoterShare;
 
-    emit PrintLicensed(collectionAddress, tokenId, promoter, msg.sender);
+    // Record the purchase
+    licenseBuyers[collectionAddress][tokenId][msg.sender] = true;
+
+    emit PrintLicensed(collectionAddress, tokenId, promoter, artistShare, ownerShare, promoterShare, msg.sender);
+  }
+  
+  function getCollectionOwner(address collectionAddress) public view returns(address){
+    return Ownable(collectionAddress).owner();
+  }
+
+  function getBalance() public view returns(uint256) {
+    return pendingWithdrawal[msg.sender];
   }
 
   function withdraw() public {
     uint256 amount = pendingWithdrawal[msg.sender];
     pendingWithdrawal[msg.sender] = 0;
-    msg.sender.transfer(amount);
+    payable(msg.sender).transfer(amount);
+
+    emit Withdrawn(msg.sender, amount);
   }
 
-  function getRequiredPayment(address collectionAddress, uint256 tokenId) public {
-    License license = collectionLicenses[collectionAddress];
-    assert(license != null, "no license defined");
+  function getRequiredPayment(address collectionAddress) public view returns(uint256){
+    License storage license = collectionLicenses[collectionAddress];
+    require(license.exists, "no license defined");
     return license.artistRoyalty + license.ownerRoyalty + license.promoterCommission; // TODO Add the cost
   }
 }
