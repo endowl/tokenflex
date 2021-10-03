@@ -6,6 +6,9 @@ import Product from '../product';
 
 import './main.css';
 
+import code from '../../images/QRCircleQRScan.png';
+import placeholderNft from '../../images/StephCurrysBoredApe.jpeg';
+
 function Main() {
   return (
     <div className="main">
@@ -27,7 +30,7 @@ function Main() {
           <Landing />
         </div>
         <div className="main-middle-product">
-          <Product />
+          <Product nft={placeholderNft} seal={code} />
         </div>
       </div>
 

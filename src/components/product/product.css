@@ -12,10 +12,14 @@
   background-size: contain;
 }
 
-/* .product-nft {
-
+.product-nft {
+  width: 179.55px;
+  height: 184.41px;
+  position: relative;
+  top: 140px;
+  left: 10px;
 }
 
 .product-seal {
 
-} */
+}
