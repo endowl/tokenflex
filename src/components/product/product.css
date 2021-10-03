@@ -17,9 +17,14 @@
   height: 184.41px;
   position: relative;
   top: 140px;
-  left: 10px;
+  left: 35px;
 }
 
 .product-seal {
-
+  height: 50px;
+  width: 50px;
+  position: relative;
+  z-index: 1;
+  top: 320px;
+  right: 160px;
 }
