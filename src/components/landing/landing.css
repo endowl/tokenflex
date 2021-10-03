@@ -3,11 +3,12 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
+  height: 100%;
 }
 
 .landing-primary {
-  font-size: 60px;
+  font-size: 80px;
+  margin-top: 9%;
 }
 
 .landing-secondary {
