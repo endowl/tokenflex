@@ -26,12 +26,18 @@ function Main() {
       </div>
 
       <div className="main-middle">
+        {/* if wallet not connected */}
         <div className="main-middle-landing">
           <Landing />
         </div>
         <div className="main-middle-product">
           <Product nft={placeholderNft} seal={code} />
         </div>
+
+        {/* if wallet connected */}
+
+        
+
       </div>
 
     </div>
