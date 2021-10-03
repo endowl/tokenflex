@@ -74,8 +74,9 @@ contract NftPrintLicense is Ownable {
     } else {
       // Otherwise, split it proportioanlly between the tokenOwner and the artist
       uint256 totalRoyalty = license.artistRoyalty + license.ownerRoyalty;
-      artistShare += license.promoterCommission * (license.artistRoyalty / totalRoyalty);
-      ownerShare += license.promoterCommission - artistShare;
+      uint256 artistPortion = license.promoterCommission * license.artistRoyalty / totalRoyalty;
+      artistShare += artistPortion;
+      ownerShare += license.promoterCommission - artistPortion;
     }
 
     address artist = getCollectionOwner(collectionAddress);
@@ -93,8 +94,8 @@ contract NftPrintLicense is Ownable {
 
     emit PrintLicensed(collectionAddress, tokenId, promoter, artistShare, ownerShare, promoterShare, msg.sender);
   }
-  
-  function getCollectionOwner(address collectionAddress) public view returns(address){
+
+  function getCollectionOwner(address collectionAddress) private view returns(address){
     return Ownable(collectionAddress).owner();
   }
 

@@ -1,5 +1,5 @@
-var SimpleStorage = artifacts.require("./NftPrintLicense.sol");
+var NftPrintLicense = artifacts.require("./NftPrintLicense.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(SimpleStorage);
+  deployer.deploy(NftPrintLicense);
 };
