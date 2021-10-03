@@ -41,3 +41,11 @@
   position: absolute;
   left: 69vw;
 }
+
+.main-button {
+  position: absolute;
+  left: 1700px;
+  top: 990px;
+  height: 30px;
+  width: 50px;
+}

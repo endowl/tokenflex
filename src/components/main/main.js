@@ -35,7 +35,7 @@ function Main() {
 
   return (
     <div className="main" style={{backgroundImage: "url('./Group1.png')"}}>
-      <button onClick={() => setCount(count + 1)}>next</button>
+      <button className="main-button" onClick={() => setCount(count + 1)}>next</button>
       {scene}
     </div>
 
