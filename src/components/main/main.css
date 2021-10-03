@@ -31,3 +31,8 @@
   display: flex;
   flex-direction: row;
 }
+
+.main-middle-landing {
+  margin-left: 60px;
+  margin-right: 40px;
+}
