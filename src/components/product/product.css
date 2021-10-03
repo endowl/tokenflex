@@ -1,11 +1,12 @@
 .product {
   display: flex;
+  margin-right: 60px;
 }
 
 .product-base {
   background-image: url('./BlankShirt.png');
-  height: 800px;
-  width: 800px;
+  height: 540px;
+  width: 540px;
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;

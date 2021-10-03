@@ -10,9 +10,21 @@
 .main-top {
   display: flex;
   flex-direction: row;
-  padding: 40px;
+  padding: 30px;
   margin: auto;
   justify-content: space-between;
+}
+
+.main-top-logo {
+  margin-left: 0px;
+  margin-right: auto;
+}
+
+.main-top-connect {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-right: 68px;
 }
 
 .main-middle {

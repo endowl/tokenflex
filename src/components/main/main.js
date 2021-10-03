@@ -11,22 +11,22 @@ function Main() {
     <div className="main">
 
       <div className="main-top">
-        <div>
+        <div className="main-top-seal">
           <Seal />
         </div>
-        <div>
+        <div className="main-top-logo">
           <Logo />
         </div>
-        <div>
+        <div className="main-top-connect">
           <Connect />
         </div>
       </div>
 
       <div className="main-middle">
-        <div>
+        <div className="main-middle-landing">
           <Landing />
         </div>
-        <div>
+        <div className="main-middle-product">
           <Product />
         </div>
       </div>
