@@ -1,4 +1,5 @@
 .product {
+  position: fixed;
   display: flex;
   margin-right: 60px;
 }

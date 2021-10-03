@@ -16,6 +16,7 @@ function Main() {
 
       <div className="main-top">
         <div className="main-top-seal">
+          {/* Scene 1 */}
           <Seal />
         </div>
         <div className="main-top-logo">
@@ -28,10 +29,10 @@ function Main() {
 
       <div className="main-middle">
         <div className="main-middle-landing">
-        {/* if wallet not connected */}
-          {/* <Landing /> */}
-        {/* if wallet connected */}
-          <NftScroller />
+        {/* scene 1 */}
+          <Landing />
+        {/* scene 2 */}
+          {/* <NftScroller /> */}
         </div>
         <div className="main-middle-product">
           <Product nft={placeholderNft} seal={code} />
