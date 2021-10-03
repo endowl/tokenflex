@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import SimpleStorageContract from "./contracts/SimpleStorage.json";
+import SimpleStorageContract from "./contracts/NftPrintLicense.json";
 import getWeb3 from "./getWeb3";
 
 import "./App.css";
