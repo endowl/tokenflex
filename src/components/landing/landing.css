@@ -1,0 +1,16 @@
+.landing {
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.landing-primary {
+  font-size: 64px;
+  margin-top: 10%;
+}
+
+.landing-secondary {
+  font-size: 80px;
+}
